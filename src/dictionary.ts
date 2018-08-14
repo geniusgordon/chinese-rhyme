@@ -16,7 +16,7 @@ function initDictionary(filePath: string): Promise<Dictionary> {
       const [word, freq] = line.split(/\s+/);
       if (!freq) {
         console.error('initializing dictionary');
-        bar = new ProgressBar('[:bar] :current/:total :percent :etas', {
+        bar = new ProgressBar('[:bar] :current/:total :percent :etas :elapseds', {
           total: parseInt(word),
           complete: '=',
           incomplete: ' ',

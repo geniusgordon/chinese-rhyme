@@ -51,7 +51,11 @@ function getRhyme(v: string): number {
 
 function getChewing(word: string): Array<Chewing> {
   return word.split('').map(cur => {
-    const [chewing, tone] = removeTone(charToChewing[cur][0]);
+    const cw = charToChewing[cur];
+    if (!cw) {
+      throw new Error(`no chewing for ${cur}`);
+    }
+    const [chewing, tone] = removeTone(cw[0]);
     const vowel = getVowel(chewing);
     return {
       vowel,

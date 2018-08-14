@@ -46,4 +46,6 @@ if (phoneCinPath) {
   initPhoneCin(phoneCinPath).then(charToChewing => {
     console.log(JSON.stringify(charToChewing, null, 2));
   });
+} else {
+  console.error('請指定路徑');
 }

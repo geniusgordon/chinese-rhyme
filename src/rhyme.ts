@@ -41,7 +41,7 @@ function searchRhyme(
     tone: boolean;
   },
 ): Dictionary {
-  const bar = new ProgressBar('[:bar] :current/:total :percent :etas', {
+  const bar = new ProgressBar('[:bar] :current/:total :percent :etas :elapseds', {
     total: dictionary.length,
     complete: '=',
     incomplete: ' ',
