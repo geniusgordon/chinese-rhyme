@@ -8,6 +8,6 @@ Chinese rhyme search
 ## Usage
 
 ```bash
-export DICT=<dictionary path>
+export DICT=./data/dict.txt
 yarn start
 ```
