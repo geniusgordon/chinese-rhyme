@@ -29,7 +29,13 @@ async function main() {
       if (word === 'q') {
         break;
       }
-      console.log(searchRhyme(dictionary, word, { count, tone }));
+      const result = searchRhyme(dictionary, word, { count, tone });
+      result
+        .sort((a, b) => b.freq - a.freq)
+        .slice(0, 100)
+        .forEach(r => {
+          console.log(r.word, r.freq);
+        });
     }
   } else {
     console.log('請指定字典路徑');

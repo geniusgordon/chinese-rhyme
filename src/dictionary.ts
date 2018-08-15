@@ -1,6 +1,7 @@
 import fs from 'fs';
 import readline from 'readline';
 import ProgressBar from 'progress';
+import getChewing from './chewing';
 import { Dictionary } from './types';
 
 function initDictionary(filePath: string): Promise<Dictionary> {
@@ -16,12 +17,15 @@ function initDictionary(filePath: string): Promise<Dictionary> {
       const [word, freq] = line.split(/\s+/);
       if (!freq) {
         console.error('initializing dictionary');
-        bar = new ProgressBar('[:bar] :current/:total :percent :etas :elapseds', {
-          total: parseInt(word),
-          complete: '=',
-          incomplete: ' ',
-          width: 20,
-        });
+        bar = new ProgressBar(
+          '[:bar] :current/:total :percent :etas :elapseds',
+          {
+            total: parseInt(word),
+            complete: '=',
+            incomplete: ' ',
+            width: 20,
+          },
+        );
         return;
       }
       if (bar) {
@@ -34,6 +38,7 @@ function initDictionary(filePath: string): Promise<Dictionary> {
       dictionary.push({
         word,
         freq: parseInt(freq),
+        chewing: getChewing(word),
       });
       wordBag.set(word, true);
     });

@@ -11,7 +11,9 @@ type Chewing = {
 type DictionaryItem = {
   word: string;
   freq: number;
+  chewing: Array<Chewing>;
 };
+
 type Dictionary = Array<DictionaryItem>;
 
-export { Chewing, Dictionary, CharToChewingTable };
+export { Chewing, CharToChewingTable, Dictionary, DictionaryItem };

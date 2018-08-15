@@ -13,7 +13,7 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testRegex": "(src/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -27,5 +27,9 @@
     "inquirer": "^6.1.0",
     "pinyin": "^2.8.3",
     "progress": "^1.1.8"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "test": "jest"
   }
 }
