@@ -104,12 +104,13 @@ function searchRhyme(
 ): Dictionary {
   const cw = getChewing(word);
   dictionary.sort(compareDictionaryItem);
+  const candidate = dictionary.filter(d => d.word.length >= options.count);
   let start = 0;
-  let end = dictionary.length;
+  let end = candidate.length;
   for (let i = 0; i < options.count; i++) {
-    [start, end] = binarySearch(dictionary, cw, i, start, end);
+    [start, end] = binarySearch(candidate, cw, i, start, end);
   }
-  return dictionary.slice(start - 1, end + 1);
+  return candidate.slice(start - 1, end + 1);
 }
 
 export default searchRhyme;
