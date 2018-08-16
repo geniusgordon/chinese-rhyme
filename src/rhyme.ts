@@ -34,46 +34,59 @@ function isRhyme(
 }
 
 function compareDictionaryItem(
+  d0: DictionaryItem,
   d1: DictionaryItem,
-  d2: DictionaryItem,
   count?: number,
 ): number {
+  const len0 = d0.word.length;
   const len1 = d1.word.length;
-  const len2 = d2.word.length;
-  const lmin = Math.min(len1, len2);
+  const lmin = Math.min(len0, len1);
   const min = count ? Math.min(lmin, count) : lmin;
+  const c0 = d0.chewing;
   const c1 = d1.chewing;
-  const c2 = d2.chewing;
 
   let k = 0;
   while (k < min) {
+    const r0 = c0[len0 - k - 1].rhyme;
     const r1 = c1[len1 - k - 1].rhyme;
-    const r2 = c2[len2 - k - 1].rhyme;
-    if (r1 !== r2) {
-      return r1 - r2;
+    const t0 = c0[len0 - k - 1].tone;
+    const t1 = c1[len1 - k - 1].tone;
+    if (r0 !== r1) {
+      return r0 - r1;
+    }
+    if (t0 !== t1) {
+      return t0 - t1;
     }
     k++;
   }
-  return len1 - len2;
+  return len0 - len1;
 }
 
 function binarySearch(
   dictionary: Dictionary,
   chewing: Array<Chewing>,
+  tone: boolean,
   index: number,
   from: number,
   to: number,
 ): [number, number] {
-  const target = chewing[chewing.length - index - 1].rhyme;
+  const target = chewing[chewing.length - index - 1];
   let left = from;
   let right = to;
   while (left < right) {
     let mid = Math.floor((left + right) / 2);
     const c = dictionary[mid].chewing;
-    if (c[c.length - index - 1].rhyme < target) {
+    const cur = c[c.length - index - 1];
+    if (cur.rhyme < target.rhyme) {
       left = mid + 1;
-    } else {
+    } else if (cur.rhyme > target.rhyme) {
       right = mid;
+    } else {
+      if (tone && cur.tone < target.tone) {
+        left = mid + 1;
+      } else {
+        right = mid;
+      }
     }
   }
   const start = left;
@@ -83,10 +96,21 @@ function binarySearch(
   while (left < right) {
     let mid = Math.floor((left + right) / 2);
     const c = dictionary[mid].chewing;
-    if (c[c.length - index - 1].rhyme <= target) {
+    const cur = c[c.length - index - 1];
+    if (cur.rhyme < target.rhyme) {
       left = mid + 1;
-    } else {
+    } else if (cur.rhyme > target.rhyme) {
       right = mid;
+    } else {
+      if (tone) {
+        if (cur.tone <= target.tone) {
+          left = mid + 1;
+        } else {
+          right = mid;
+        }
+      } else {
+        left = mid + 1;
+      }
     }
   }
   const end = left;
@@ -108,7 +132,7 @@ function searchRhyme(
   let start = 0;
   let end = candidate.length;
   for (let i = 0; i < options.count; i++) {
-    [start, end] = binarySearch(candidate, cw, i, start, end);
+    [start, end] = binarySearch(candidate, cw, options.tone, i, start, end);
   }
   return candidate.slice(start - 1, end + 1);
 }
